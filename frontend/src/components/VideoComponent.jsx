@@ -17,8 +17,9 @@ function VideoComponent({ id }) {
   useEffect(() => {
     async function fetchAllModule() {
       try {
-        const res = await axios.get(`http://localhost:5000/api/modules`);
+        const res = await axios.get(`https://video-tube-backend2.vercel.app/api/modules`);
         setNextPrevModule(res?.data);
+        console.log("res?.data: ", res?.data);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching module:", error);
@@ -31,10 +32,10 @@ function VideoComponent({ id }) {
     let allowedTime = 0;
     async function fetchModule() {
       try {
-        const res = await axios.get(`http://localhost:5000/api/modules/${id}`);
+        const res = await axios.get(`https://video-tube-backend2.vercel.app/api/modules/${id}`);
         setModule(res?.data);
         console.log("videoPath", res?.data?.videoPath);
-        const progressRes = await axios.get(`http://localhost:5000/api/progress/${id}`);
+        const progressRes = await axios.get(`https://video-tube-backend2.vercel.app/api/progress/${id}`);
 
         if (videoPlayer) {
           videoPlayer.dispose();
@@ -51,7 +52,7 @@ function VideoComponent({ id }) {
           const duration = player.duration();
           const percentage = (currentTime / duration) * 100;
           setPlayPercentage(percentage.toFixed());
-          axios.post(`http://localhost:5000/api/progress/${id}`, { timestamp: currentTime });
+          axios.post(`https://video-tube-backend2.vercel.app/api/progress/${id}`, { timestamp: currentTime });
         });
 
         player.on("seeking", () => {
@@ -140,7 +141,7 @@ function VideoComponent({ id }) {
           </div>
         </div>
         <div data-vjs-player>
-          {isLoading ? <Skeleton width={400} height={250} /> : <video ref={(element) => setVideoElement(element)} className='video-js' height='260' controls preload='auto'></video>}{" "}
+          {isLoading ? <Skeleton width={400} height={250} /> : <video ref={(element) => setVideoElement(element)} className='video-js' height='260' controls preload='auto'></video>}
         </div>
         <div className='next-module mt-3 z-50'>
           {nextPrevModule?.map((item, index) => {
