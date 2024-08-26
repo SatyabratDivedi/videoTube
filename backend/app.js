@@ -6,7 +6,9 @@ const Module = require("./schema/ModuleSchema");
 const Progress = require("./schema/progressSchema");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://video-tube-fun.vercel.app",
+}));
 app.use(bodyParser.json());
 app.use("/public", express.static("public"));
 
